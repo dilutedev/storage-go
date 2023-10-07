@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	storage_go "github.com/supabase-community/storage-go"
 )
 
@@ -19,7 +20,8 @@ func TestUpload(t *testing.T) {
 		panic(err)
 	}
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.UploadFile("test1", "test.txt", file)
+	resp, err := c.UploadFile("test1", "test.txt", file, "")
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 
 	// resp = c.UploadFile("test1", "hola.txt", []byte("hello world"))
@@ -32,22 +34,22 @@ func TestUpdate(t *testing.T) {
 		panic(err)
 	}
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.UpdateFile("test1", "test.txt", file)
-
+	resp, err := c.UpdateFile("test1", "test.txt", file, "")
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 }
 
 func TestMoveFile(t *testing.T) {
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.MoveFile("test1", "test.txt", "random/test.txt")
-
+	resp, err := c.MoveFile("test1", "test.txt", "random/test.txt")
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 }
 
 func TestSignedUrl(t *testing.T) {
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.CreateSignedUrl("test1", "file_example_MP4_480_1_5MG.mp4", 120)
-
+	resp, err := c.CreateSignedUrl("test1", "file_example_MP4_480_1_5MG.mp4", 120)
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 }
 
@@ -60,14 +62,14 @@ func TestPublicUrl(t *testing.T) {
 
 func TestDeleteFile(t *testing.T) {
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.RemoveFile("shield", []string{"book.pdf"})
-
+	resp, err := c.RemoveFile("shield", []string{"book.pdf"})
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 }
 
 func TestListFile(t *testing.T) {
 	c := storage_go.NewClient(rawUrl, token, map[string]string{})
-	resp := c.ListFiles("test1", "", storage_go.FileSearchOptions{
+	resp, err := c.ListFiles("test1", "", storage_go.FileSearchOptions{
 		Limit:  10,
 		Offset: 0,
 		SortByOptions: storage_go.SortBy{
@@ -75,14 +77,14 @@ func TestListFile(t *testing.T) {
 			Order:  "",
 		},
 	})
-
+	assert.NotNil(t, err)
 	fmt.Println(resp)
 }
 
 func TestCreateUploadSignedUrl(t *testing.T) {
 	c := storage_go.NewClient(rawUrl, token, map[string]string{"apiKey": token})
 	resp, err := c.CreateSignedUploadUrl("your-bucket-id", "book.pdf")
-
+	assert.NotNil(t, err)
 	fmt.Println(resp, err)
 }
 
